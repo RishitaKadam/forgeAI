@@ -7,15 +7,11 @@ python-dotenv==1.0.1
 PyMuPDF==1.24.10
 
 google-genai==1.28.0
-
-sentence-transformers==3.0.1
-transformers==4.44.2
-torch
+langchain-google-genai
 
 chromadb==0.5.3
 
 langchain==0.2.17
 langchain-community==0.2.19
 langchain-text-splitters==0.2.4
-langchain-huggingface==0.0.3
 langchain-chroma==0.1.4
