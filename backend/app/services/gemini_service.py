@@ -14,6 +14,11 @@ client = genai.Client(
 
 MAX_RETRIES = 4
 RETRYABLE_MARKERS = ("503", "UNAVAILABLE", "429", "RESOURCE_EXHAUSTED")
+QUOTA_EXCEEDED_MESSAGE = (
+    "**ForgeAI has hit its daily usage limit.**\n\n"
+    "This project runs on a free-tier API key with a small daily request cap. "
+    "Please check back later today or tomorrow, or reach out if you'd like to see it live in a call."
+)
 
 
 def generate_answer(prompt: str, temperature: float = 0.2, max_tokens: int = 4096) -> str:
@@ -30,11 +35,17 @@ def generate_answer(prompt: str, temperature: float = 0.2, max_tokens: int = 409
             )
             return response.text or ""
         except Exception as e:
-            is_retryable = any(marker in str(e) for marker in RETRYABLE_MARKERS)
+            error_text = str(e)
+            is_retryable = any(marker in error_text for marker in RETRYABLE_MARKERS)
+
             if is_retryable and attempt < MAX_RETRIES - 1:
                 time.sleep(delay)
                 delay = min(delay * 2, 20)
                 continue
+
+            if "RESOURCE_EXHAUSTED" in error_text or "429" in error_text:
+                return QUOTA_EXCEEDED_MESSAGE
+
             raise
 
-    return ""
+    return QUOTA_EXCEEDED_MESSAGE
