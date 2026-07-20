@@ -24,6 +24,11 @@ const STEPS = [
 
 const TECH = ["React 19", "FastAPI", "Gemini AI", "ChromaDB", "Vector Search", "Tailwind CSS"];
 
+const MARQUEE_ITEMS = [
+  "Engineering Answers", "Instant Summaries", "Formula Extraction", "Knowledge Graphs",
+  "Smart Search", "Document Comparison", "Voice-Powered Chat", "Auto-Generated Reports",
+];
+
 function Nav() {
   return (
     <nav className="sticky top-0 z-30 backdrop-blur-xl bg-slate-950/70 border-b border-white/5">
@@ -100,11 +105,23 @@ export default function Landing() {
         </div>
 
         <div className="mt-16 flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm text-slate-500">
-          {["No sign-up required", "Free & open backend", "Runs on your own API key"].map((t) => (
+          {["No sign-up required", "Self-hosted, own infrastructure", "Runs on your own API key"].map((t) => (
             <span key={t} className="flex items-center gap-2">
               <CheckCircle2 className="w-4 h-4 text-emerald-500" /> {t}
             </span>
           ))}
+        </div>
+
+        {/* Sliding marquee strip */}
+        <div className="mt-14 border-y border-white/10 overflow-hidden">
+          <div className="flex w-max py-4 animate-marquee">
+            {[...MARQUEE_ITEMS, ...MARQUEE_ITEMS].map((item, i) => (
+              <span key={i} className="flex items-center gap-3 mx-6 text-sm font-medium tracking-wide text-slate-500 whitespace-nowrap">
+                {item}
+                <span className="w-1 h-1 rounded-full bg-blue-500/60" />
+              </span>
+            ))}
+          </div>
         </div>
 
         {/* Product preview mock */}
@@ -220,7 +237,7 @@ export default function Landing() {
       <section className="max-w-5xl mx-auto px-6 lg:px-10 pb-28">
         <div className="relative rounded-3xl border border-white/10 bg-gradient-to-br from-blue-600/20 via-slate-900 to-indigo-600/10 p-14 text-center overflow-hidden">
           <MessageSquare className="w-10 h-10 text-blue-400 mx-auto mb-6" />
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4">Stop reading. Start asking.</h2>
+          <h2 className="text-3xl sm:text-4xl font-bold mb-4">See it in action</h2>
           <p className="text-slate-400 max-w-lg mx-auto mb-8">
             Upload your first document and see ForgeAI turn it into an interactive, voice-ready engineering assistant.
           </p>
@@ -237,9 +254,14 @@ export default function Landing() {
       <footer className="border-t border-white/5">
         <div className="max-w-7xl mx-auto px-6 lg:px-10 py-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-slate-500">
           <span>© {new Date().getFullYear()} ForgeAI. Built with React &amp; FastAPI.</span>
-          <a href="https://github.com" target="_blank" rel="noreferrer" className="flex items-center gap-1.5 hover:text-white transition">
-            <Github className="w-4 h-4" /> View on GitHub
-          </a>
+          <div className="flex items-center gap-6">
+            <a href="https://forgeai-backend-1gem.onrender.com/docs" target="_blank" rel="noreferrer" className="hover:text-white transition">
+              API Docs
+            </a>
+            <a href="https://github.com/RishitaKadam/forgeAI" target="_blank" rel="noreferrer" className="flex items-center gap-1.5 hover:text-white transition">
+              <Github className="w-4 h-4" /> View on GitHub
+            </a>
+          </div>
         </div>
       </footer>
     </div>

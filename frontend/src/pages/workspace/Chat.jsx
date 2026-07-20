@@ -19,6 +19,7 @@ export default function Chat() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [autoSpeak, setAutoSpeak] = useState(false);
+  const [coldStartHint, setColdStartHint] = useState(false);
   const scrollRef = useRef(null);
 
   const { speak, cancel, speaking, supported: ttsSupported } = useSpeechSynthesis();
@@ -38,6 +39,7 @@ export default function Chat() {
     setError("");
     setMessages((prev) => [...prev, { role: "user", text }]);
     setLoading(true);
+    const coldTimer = setTimeout(() => setColdStartHint(true), 4000);
 
     try {
       const result = await askQuestion(text, activeDocId);
@@ -46,6 +48,8 @@ export default function Chat() {
     } catch (err) {
       setError(err.message || "Something went wrong talking to ForgeAI.");
     } finally {
+      clearTimeout(coldTimer);
+      setColdStartHint(false);
       setLoading(false);
     }
   }
@@ -154,10 +158,17 @@ export default function Chat() {
 
         {loading && (
           <div className="flex justify-start">
-            <div className="bg-slate-800/80 border border-slate-700 rounded-2xl rounded-bl-md px-5 py-3.5 flex items-center gap-2">
-              <span className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-bounce [animation-delay:-0.3s]" />
-              <span className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-bounce [animation-delay:-0.15s]" />
-              <span className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-bounce" />
+            <div className="bg-slate-800/80 border border-slate-700 rounded-2xl rounded-bl-md px-5 py-3.5">
+              <div className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-bounce [animation-delay:-0.3s]" />
+                <span className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-bounce [animation-delay:-0.15s]" />
+                <span className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-bounce" />
+              </div>
+              {coldStartHint && (
+                <p className="text-xs text-slate-500 mt-2">
+                  Waking up the server - this can take up to a minute on first use.
+                </p>
+              )}
             </div>
           </div>
         )}

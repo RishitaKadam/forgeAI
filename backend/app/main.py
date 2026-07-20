@@ -14,8 +14,9 @@ from app.routes.report import router as report_router
 
 app = FastAPI(
     title="ForgeAI API",
-    description="AI Engineering Intelligence Platform",
+    description="AI Engineering Intelligence Platform - chat, search, summarize, compare and extract structured engineering data from PDFs using Gemini and retrieval-augmented generation.",
     version="2.0.0",
+    contact={"name": "ForgeAI", "url": "https://forge-ai-olive.vercel.app"},
 )
 
 # Enable CORS - allows your deployed frontend (Vercel/Netlify) plus localhost dev
