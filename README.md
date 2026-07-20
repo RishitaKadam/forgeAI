@@ -1,24 +1,10 @@
-\# ForgeAI
+ForgeAI
 
+Talk to your engineering PDFs.\*\* ForgeAI is an AI-powered document intelligence platform — upload a manual, datasheet, research paper or report, and chat with it by voice or text, search it semantically, extract formulas, generate executive summaries, compare documents, and produce formal reports, all backed by a real retrieval-augmented generation (RAG) pipeline.
 
-
-\*\*Talk to your engineering PDFs.\*\* ForgeAI is an AI-powered document intelligence platform — upload a manual, datasheet, research paper or report, and chat with it by voice or text, search it semantically, extract formulas, generate executive summaries, compare documents, and produce formal reports, all backed by a real retrieval-augmented generation (RAG) pipeline.
-
-
-
-
-
-\---
-
-
-
-\## What ForgeAI does
-
-
+What ForgeAI does
 
 Most "chat with your PDF" tools stop at Q\&A. ForgeAI treats a document as something to be \*understood\*, not just searched:
-
-
 
 \- Ask questions in plain English (or by voice) and get structured, cited answers grounded in the actual document text — not hallucinated.
 
