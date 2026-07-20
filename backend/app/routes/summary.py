@@ -1,5 +1,6 @@
 from fastapi import APIRouter, HTTPException
-
+from fastapi import Depends
+from app.services.session import get_session_id
 from app.services.store import get_document, get_document_text
 from app.services.gemini_service import generate_answer
 from app.services.prompt_service import build_summary_prompt

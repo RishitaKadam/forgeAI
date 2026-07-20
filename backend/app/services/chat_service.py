@@ -3,8 +3,8 @@ from app.services.prompt_service import build_prompt
 from app.services.gemini_service import generate_answer
 
 
-def chat(question: str, doc_id: str | None = None):
-    docs = search_documents(question, k=12, doc_id=doc_id)
+def chat(question: str, session_id: str, doc_id: str | None = None):
+    docs = search_documents(question, session_id=session_id, k=12, doc_id=doc_id)
 
     context = "\n\n".join(doc.page_content for doc in docs)
 

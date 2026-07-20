@@ -1,19 +1,20 @@
 import json
 import re
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 
 from app.services.store import get_document, get_document_text
 from app.services.gemini_service import generate_answer
 from app.services.prompt_service import build_graph_prompt
+from app.services.session import get_session_id
 
 router = APIRouter(tags=["Knowledge Graph"])
 
 
 @router.get("/knowledge-graph/{doc_id}")
-def knowledge_graph(doc_id: str):
+def knowledge_graph(doc_id: str, session_id: str = Depends(get_session_id)):
     meta = get_document(doc_id)
-    if not meta:
+    if not meta or meta.get("session_id") != session_id:
         raise HTTPException(404, "Document not found.")
 
     text = get_document_text(doc_id)[:14000]

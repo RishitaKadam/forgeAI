@@ -2,11 +2,22 @@
 // Falls back to your local FastAPI server for development.
 export const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
 
+function getSessionId() {
+  let id = localStorage.getItem("forgeai_session_id");
+  if (!id) {
+    id = crypto.randomUUID();
+    localStorage.setItem("forgeai_session_id", id);
+  }
+  return id;
+}
+
 async function request(path, options = {}) {
+  const isFormData = options.body instanceof FormData;
   const response = await fetch(`${API_URL}${path}`, {
-    headers: options.body instanceof FormData
-      ? undefined
-      : { "Content-Type": "application/json" },
+    headers: {
+      ...(isFormData ? {} : { "Content-Type": "application/json" }),
+      "X-Session-Id": getSessionId(),
+    },
     ...options,
   });
 
@@ -16,7 +27,7 @@ async function request(path, options = {}) {
       const data = await response.json();
       message = data.detail || message;
     } catch {
-      // response wasn't JSON, keep default message
+      // response wasnt JSON, keep default message
     }
     throw new Error(message);
   }

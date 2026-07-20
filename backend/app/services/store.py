@@ -1,9 +1,3 @@
-"""
-Lightweight JSON-backed document registry.
-Keeps track of every uploaded PDF (metadata) plus its full extracted text,
-so every feature (dashboard, summary, formulas, graph, compare, report)
-can reuse the same source of truth without re-parsing the PDF.
-"""
 import json
 import os
 import threading
@@ -41,8 +35,9 @@ def save_document(doc_id: str, meta: dict, full_text: str):
         f.write(full_text)
 
 
-def list_documents():
-    return list(_read().values())
+def list_documents(session_id: str):
+    docs = _read().values()
+    return [d for d in docs if d.get("session_id") == session_id]
 
 
 def get_document(doc_id: str):

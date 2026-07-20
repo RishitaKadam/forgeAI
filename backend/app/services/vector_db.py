@@ -21,14 +21,15 @@ def create_vector_db(chunks, metadatas):
     return db
 
 
-def search_documents(question, k=8, doc_id: str | None = None):
+def search_documents(question, session_id: str, k=8, doc_id: str | None = None):
     db = load_vector_db()
 
     if doc_id:
-        docs = db.similarity_search(question, k=k, filter={"doc_id": doc_id})
+        where = {"$and": [{"doc_id": doc_id}, {"session_id": session_id}]}
     else:
-        docs = db.similarity_search(question, k=k)
+        where = {"session_id": session_id}
 
+    docs = db.similarity_search(question, k=k, filter=where)
     return docs
 
 

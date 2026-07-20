@@ -1,9 +1,10 @@
 import re
 from collections import Counter
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 
 from app.services.store import get_document, get_document_text
+from app.services.session import get_session_id
 
 router = APIRouter(tags=["Engineering Dashboard"])
 
@@ -17,9 +18,9 @@ such only own same figure table page section chapter fig eq
 
 
 @router.get("/dashboard/{doc_id}")
-def engineering_dashboard(doc_id: str):
+def engineering_dashboard(doc_id: str, session_id: str = Depends(get_session_id)):
     meta = get_document(doc_id)
-    if not meta:
+    if not meta or meta.get("session_id") != session_id:
         raise HTTPException(404, "Document not found.")
 
     text = get_document_text(doc_id)
